@@ -39,7 +39,7 @@ a {
   --softTextColor: #626262;
 }
 
-.container {
+.layout-container {
   min-height: 100vh;
   background-color: var(--bg);
   color: var(--textColor);

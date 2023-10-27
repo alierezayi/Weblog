@@ -1,9 +1,42 @@
-import React from 'react'
+"use client";
+
+import { useState } from "react";
+import Image from "next/image";
 
 const ThemeToggle = () => {
-  return (
-    <div>ThemeToggle</div>
-  )
-}
+  const [theme] = useState<"dark" | "light">("light");
 
-export default ThemeToggle
+  return (
+    <div
+      className={`w-10 h-5 rounded-[50px] cursor-pointer flex justify-between items-center px-[2px] relative ${
+        theme === "dark" ? "bg-white" : "bg-[#0f172a]"
+      }`}
+    >
+      <Image
+        src="/images/moon.png"
+        alt="dark"
+        className=""
+        width={14}
+        height={14}
+      />
+
+      <div
+        className={`w-4 h-4 rounded-[50px] absolute ${
+          theme === "dark"
+            ? "left-[1.5px] bg-[#0f172a]"
+            : "right-[1.5px] bg-white"
+        }`}
+      />
+
+      <Image
+        src="/images/sun.png"
+        alt="light"
+        className=""
+        width={14}
+        height={14}
+      />
+    </div>
+  );
+};
+
+export default ThemeToggle;
