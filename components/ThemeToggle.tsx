@@ -1,16 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
+import { useTheme } from "@/context/ThemeContext";
 
 const ThemeToggle = () => {
-  const [theme] = useState<"dark" | "light">("light");
+  const { theme, toggleTheme } = useTheme();
 
   return (
     <div
       className={`w-10 h-5 rounded-[50px] cursor-pointer flex justify-between items-center px-[2px] relative ${
         theme === "dark" ? "bg-white" : "bg-[#0f172a]"
       }`}
+      onClick={toggleTheme}
     >
       <Image
         src="/images/moon.png"

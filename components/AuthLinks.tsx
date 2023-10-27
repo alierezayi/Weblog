@@ -5,9 +5,13 @@ import Link from "next/link";
 
 import { CgMenu } from "react-icons/cg";
 import { LuLogIn, LuLogOut } from "react-icons/lu";
+import { IoClose } from "react-icons/io5";
+
+import { useTheme } from "@/context/ThemeContext";
 
 const AuthLinks = () => {
   const [open, setOpen] = useState(false);
+  const { theme } = useTheme();
 
   return (
     <>
@@ -21,26 +25,35 @@ const AuthLinks = () => {
             Write
           </Link>
           <button className="hidden md:block" onClick={() => {}}>
-            <LuLogOut size={20} className="text-red-500 dark:text-red-400" />
+            <LuLogOut size={20} className="text-red-500" />
           </button>
         </>
       )}
 
       <div
-        className="w-5 h-5 flex flex-col justify-between items-center cursor-pointer md:hidden"
+        className=" flex flex-col justify-between items-center cursor-pointer md:hidden"
         onClick={() => setOpen(!open)}
       >
-        <CgMenu size={20} />
+        <CgMenu size={28} />
       </div>
 
       {open && (
         <div
-          className="absolute top-[100px] left-0 bg-var(--bg) h-[calc(100vh-100px)] w-full flex justify-center
-          items-center flex-col gap-12 text-4xl z-20"
+          className={`fixed inset-0 left-0 h-full w-full flex justify-center backdrop-blur-md
+          items-center flex-col gap-12 text-4xl z-20 ${
+            theme === "dark" ? "" : ""
+          }`}
         >
+          <button className="p-2" onClick={() => setOpen(false)}>
+            <IoClose className="absolute top-5 right-9" />
+          </button>
+
           <Link href="/">Homepage</Link>
-          <Link href="/">About</Link>
-          <Link href="/">Contact</Link>
+
+          <Link href="/about">About</Link>
+
+          <Link href="/contact">Contact</Link>
+
           {status === "unauthenticated" ? (
             <Link href="/login">
               <LuLogIn />
