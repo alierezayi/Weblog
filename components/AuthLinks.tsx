@@ -39,7 +39,7 @@ const AuthLinks = () => {
 
       {open && (
         <div
-          className={`fixed inset-0 left-0 h-full w-full flex justify-center backdrop-blur-md
+          className={`absolute inset-0 left-0 h-full w-full flex justify-center backdrop-blur-xl
           items-center flex-col gap-12 text-4xl z-20 ${
             theme === "dark" ? "" : ""
           }`}
