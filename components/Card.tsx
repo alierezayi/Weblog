@@ -10,7 +10,7 @@ const Card = () => {
 
   return (
     <div
-      className={`mb-12 flex items-center gap-12 p-5 rounded-xl ${
+      className={`mb-12 flex items-center gap-10 p-5 rounded-xl ${
         theme === "dark" ? "bg-white/5" : "bg-[#0f172a]/5"
       }`}
     >
@@ -28,7 +28,7 @@ const Card = () => {
             11.02.2023
             {/* {item.createdAt.substring(0, 10)} -{" "} */}
           </div>
-            -
+          -
           <div className="text-[#dc143c] font-[500]">
             CULTURE
             {/* {item.catSlug} */}
@@ -37,21 +37,19 @@ const Card = () => {
 
         <Link href="{`/posts/${item.slug}`}">
           <h1 className="text-xl font-bold">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea,
-            temporibus.
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
             {/* {item.title} */}
           </h1>
         </Link>
         <p
-          className={`text-lg font-light ${
+          className={`font-light ${
             theme === "dark" ? "text-[#a6a6a6]" : "text-[#626262]"
           }`}
         >
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo sed
           fuga molestias fugit, repellat minima hic delectus. Rem est vel quas
-          impedit veritatis ipsum asperiores quo ducimus at, nemo totam velit
-          assumenda perferendis in soluta amet ipsam possimus.
-          {/* {item.desc.substring(0, 60)} */}
+          impedit veritatis ipsum asperiores quo ducimus at, nemo totam velit .
+          . .{/* {item.desc.substring(0, 60)} */}
         </p>
 
         <div
@@ -60,7 +58,7 @@ const Card = () => {
         />
         <Link
           href="{`/posts/${item.slug}`}"
-          className={`border-b border-b-[#dc143c] text-lg font-light w-max ${
+          className={`border-b border-b-[#dc143c] w-max ${
             theme === "dark" ? "text-[#a6a6a6]" : "text-[#626262]"
           }`}
         >

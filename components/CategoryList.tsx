@@ -16,30 +16,10 @@ const CategoryList = () => {
     <div>
       <h1 className="my-12 text-xl font-bold">Popular Categories</h1>
       <div className="flex flex-wrap justify-between gap-5">
-        {/* {data?.map((item) => (
-          <Link
-            href="/blog?cat=style"
-            className={`w-full sm:w-[45%] md:w-[25%] lg:w-[20%] xl:w-[15%] flex items-center gap-[15px] capitalize
-              h-20 justify-center rounded-lg ${styles[item.slug]}`}
-            key={item._id}
-          >
-            {item.img && (
-              <Image
-                src={item.img}
-                alt=""
-                width={32}
-                height={32}
-                className="rounded-full"
-              />
-            )}
-            {item.title}
-          </Link>
-        ))} */}
-
         <Link
           href="/blog?cat=style"
           className={`w-full sm:w-[45%] md:w-[25%] lg:w-[20%] xl:w-[15%] flex items-center gap-[15px] capitalize
-            h-[70px] justify-center rounded-lg hover:scale-105 transition ${categorysColors[0]}`}
+            h-[65px] justify-center rounded-lg hover:scale-105 transition ${categorysColors[0]}`}
         >
           <Image
             src="/images/style.png"
@@ -54,7 +34,7 @@ const CategoryList = () => {
         <Link
           href="/blog?cat=style"
           className={`w-full sm:w-[45%] md:w-[25%] lg:w-[20%] xl:w-[15%] flex items-center gap-[15px] capitalize
-            h-[70px] justify-center rounded-lg ${categorysColors[1]}`}
+            h-[65px] justify-center rounded-lg ${categorysColors[1]}`}
         >
           <Image
             src="/images/fashion.png"
@@ -69,7 +49,7 @@ const CategoryList = () => {
         <Link
           href="/blog?cat=style"
           className={`w-full sm:w-[45%] md:w-[25%] lg:w-[20%] xl:w-[15%] flex items-center gap-[15px] capitalize
-            h-[70px] justify-center rounded-lg ${categorysColors[2]}`}
+            h-[65px] justify-center rounded-lg ${categorysColors[2]}`}
         >
           <Image
             src="/images/food.png"
@@ -84,7 +64,7 @@ const CategoryList = () => {
         <Link
           href="/blog?cat=style"
           className={`w-full sm:w-[45%] md:w-[25%] lg:w-[20%] xl:w-[15%] flex items-center gap-[15px] capitalize
-            h-[70px] justify-center rounded-lg ${categorysColors[3]}`}
+            h-[65px] justify-center rounded-lg ${categorysColors[3]}`}
         >
           <Image
             src="/images/travel.png"
@@ -99,7 +79,7 @@ const CategoryList = () => {
         <Link
           href="/blog?cat=style"
           className={`w-full sm:w-[45%] md:w-[25%] lg:w-[20%] xl:w-[15%] flex items-center gap-[15px] capitalize
-            h-[70px] justify-center rounded-lg ${categorysColors[4]}`}
+            h-[65px] justify-center rounded-lg ${categorysColors[4]}`}
         >
           <Image
             src="/images/culture.png"
@@ -114,7 +94,7 @@ const CategoryList = () => {
         <Link
           href="/blog?cat=style"
           className={`w-full sm:w-[45%] md:w-[25%] lg:w-[20%] xl:w-[15%] flex items-center gap-[15px] capitalize
-            h-[70px] justify-center rounded-lg ${categorysColors[5]}`}
+            h-[65px] justify-center rounded-lg ${categorysColors[5]}`}
         >
           <Image
             src="/images/coding.png"

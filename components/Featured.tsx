@@ -12,7 +12,7 @@ const Featured = () => {
         <b>Hey, lama dev here!</b> Discover my stories and creative ideas.
       </h1>
 
-      <div className={`mt-[60px] flex gap-12 p-5 rounded-xl bg-[#0f172a]/5 dark:bg-white/10`}>
+      <div className={`mt-[60px] flex gap-12 p-5 rounded-xl`}>
         <div className="hidden lg:block flex-1 h-[400px] relative">
           <Image
             src="/images/p1.jpeg"
