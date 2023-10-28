@@ -14,7 +14,7 @@ const categorysColors = [
 const CategoryList = () => {
   return (
     <div>
-      <h1 className="my-12 mx-0 text-xl font-bold">Popular Categories</h1>
+      <h1 className="my-12 text-xl font-bold">Popular Categories</h1>
       <div className="flex flex-wrap justify-between gap-5">
         {/* {data?.map((item) => (
           <Link
