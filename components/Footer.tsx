@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -16,10 +16,19 @@ const Footer = () => {
     >
       <div className="flex flex-1 flex-col gap-4 mb-7">
         <div className="flex items-center gap-3">
-          <Image src="/images/logo.png" alt="lama blog" width={50} height={50} />
+          <Image
+            src="/images/logo.png"
+            alt="lama blog"
+            width={50}
+            height={50}
+          />
           <h1 className="text-2xl">Lamablog</h1>
         </div>
-        <p className="font-light">
+        <p
+          className={`font-light ${
+            theme === "dark" ? "text-[#ddd]" : "text-black"
+          }`}
+        >
           Lorem, ipsum dolor sit amet consectetur adipisicing elit. Enim
           necessitatibus similique aspernatur obcaecati veritatis. Aperiam cum
           porro sequi, totam minima consequuntur, aspernatur deleniti vero
