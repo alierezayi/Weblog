@@ -90,7 +90,7 @@ a {
 }
 @media screen and (max-width: 640px) {
   .wrapper {
-    max-width: 95%;
+    max-width: 100%;
   }
 }
 

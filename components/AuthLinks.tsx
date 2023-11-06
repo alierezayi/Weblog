@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { signOut, useSession } from "next-auth/react";
 
 import { CgMenu } from "react-icons/cg";
 import { LuLogIn, LuLogOut } from "react-icons/lu";
@@ -12,6 +13,7 @@ import { useTheme } from "@/context/ThemeContext";
 const AuthLinks = () => {
   const [open, setOpen] = useState(false);
   const { theme } = useTheme();
+  const { status } = useSession();
 
   return (
     <>
@@ -63,7 +65,7 @@ const AuthLinks = () => {
               <Link href="/write">Write</Link>
               <button
                 className="text-red-500 dark:text-red-400"
-                onClick={() => {}}
+                onClick={() => signOut()}
               >
                 Log out
               </button>
