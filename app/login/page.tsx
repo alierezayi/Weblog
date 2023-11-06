@@ -13,7 +13,6 @@ const LoginPage = () => {
   const { status, data } = useSession();
   const { theme } = useTheme();
   const router = useRouter();
-  console.log(data, status);
 
   if (status === "loading") {
     return <div className="{styles.loading}">Loading...</div>;
