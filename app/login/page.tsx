@@ -1,17 +1,19 @@
 "use client";
+
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
-import { FaGoogle, FaFacebook } from "react-icons/fa6";
+import { FaFacebook } from "react-icons/fa6";
 import { ImGoogle3 } from "react-icons/im";
 import { BsGithub } from "react-icons/bs";
 
 import { useTheme } from "@/context/ThemeContext";
 
 const LoginPage = () => {
-  const { status } = useSession();
+  const { status, data } = useSession();
   const { theme } = useTheme();
   const router = useRouter();
+  console.log(data, status);
 
   if (status === "loading") {
     return <div className="{styles.loading}">Loading...</div>;
@@ -29,17 +31,27 @@ const LoginPage = () => {
         } p-10 md:p-20 xl:py-32 xl:px-40`}
       >
         <button
-          className="p-5 rounded-md text-sm sm:text-base font-semibold text-white sm:font-bold flex justify-center items-center bg-[#ff5555] gap-2"
+          className="p-5 rounded-md text-sm sm:text-base font-semibold text-white sm:font-bold
+          flex justify-center items-center bg-[#ff5555] gap-2"
           onClick={() => signIn("google")}
         >
           <ImGoogle3 size={25} />
           Sign in with Google
         </button>
-        <button className="p-5 rounded-md text-sm sm:text-base font-semibold text-white flex justify-center items-center sm:font-bold bg-[#111] gap-2">
+
+        <button
+          className="p-5 rounded-md text-sm sm:text-base font-semibold text-white
+          flex justify-center items-center sm:font-bold bg-[#111] gap-2"
+          onClick={() => signIn("github")}
+        >
           <BsGithub size={25} />
           Sign in with Github
         </button>
-        <button className="p-5 rounded-md text-sm sm:text-base font-semibold text-white flex justify-center items-center sm:font-bold bg-[#087bea] gap-2">
+
+        <button
+          className="p-5 rounded-md text-sm sm:text-base font-semibold text-white
+          flex justify-center items-center sm:font-bold bg-[#087bea] gap-2"
+        >
           <FaFacebook size={25} />
           Sign in with Facebook
         </button>

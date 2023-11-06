@@ -6,7 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ThemeContextProvider from "@/context/ThemeContext";
-import NextAuthProvider from "@/providers/NextAuthProvider";
+import AuthProvider from "@/providers/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,8 +23,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeContextProvider>
-          <NextAuthProvider>
+        <AuthProvider>
+          <ThemeContextProvider>
             <div className="layout-container py-5">
               <div className="wrapper">
                 <Header />
@@ -32,8 +32,8 @@ export default function RootLayout({
                 <Footer />
               </div>
             </div>
-          </NextAuthProvider>
-        </ThemeContextProvider>
+          </ThemeContextProvider>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -26,7 +26,7 @@ const AuthLinks = () => {
           <Link href="/write" className="hidden md:block text-xl">
             Write
           </Link>
-          <button className="hidden md:block" onClick={() => {}}>
+          <button className="hidden md:block" onClick={() => signOut()}>
             <LuLogOut size={20} className="text-red-500" />
           </button>
         </>
