@@ -35,9 +35,10 @@ const SinglePage = async ({ params }: { params: any }) => {
                 className="object-cover rounded-full"
               />
             </div>
+
             <div className={`flex flex-col gap-1`}>
               <span className="md:text-xl font-medium">{data?.user.name}</span>
-              <span className="">01.01.2024</span>
+              <span className="">{data.createdAt}</span>
             </div>
           </div>
         </div>
@@ -50,16 +51,14 @@ const SinglePage = async ({ params }: { params: any }) => {
           />
         </div>
       </div>
+
       <div className="flex gap-12">
-        <div className="flex-5 mt-16 lg:max-w-[75%]">
+        <div className="flex-5 mt-16 w-full lg:max-w-[75%]">
           <div
-            className={`md:text-xl font-light mb-5 `}
+            className={`md:text-xl  mb-5 description`}
             dangerouslySetInnerHTML={{ __html: data?.desc }}
           />
-
-          <div>
-            <Comments />
-          </div>
+          <Comments postSlug={slug} />
         </div>
         <Menu />
       </div>

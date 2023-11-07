@@ -92,6 +92,16 @@ a {
   .wrapper {
     max-width: 100%;
   }
+
+  .description p {
+    font-size: 18px;
+  }
+}
+
+.description p {
+  font-size: 20px;
+  font-weight: 300;
+  margin-bottom: 20px;
 }
 
 .ql-container {
