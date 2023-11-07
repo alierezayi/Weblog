@@ -3,9 +3,18 @@
 import Image from "next/image";
 import Link from "next/link";
 
+interface Post {
+  _id: string;
+  title: string;
+}
+
+interface CardProps {
+  data: Post;
+}
+
 import { useTheme } from "@/context/ThemeContext";
 
-const Card = () => {
+const Card: React.FC<CardProps> = ({ data }) => {
   const { theme } = useTheme();
 
   return (
@@ -36,10 +45,7 @@ const Card = () => {
         </div>
 
         <Link href="{`/posts/${item.slug}`}">
-          <h1 className="text-xl font-bold">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            {/* {item.title} */}
-          </h1>
+          <h1 className="text-xl font-bold">{data.title}</h1>
         </Link>
         <p
           className={`font-light ${

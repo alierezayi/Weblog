@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 import { BsUpload } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -12,12 +12,23 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 
 import { useTheme } from "@/context/ThemeContext";
+import { useRouter } from "next/navigation";
 
 const WritePage = () => {
   const { theme } = useTheme();
+  const { status } = useSession();
+  const router = useRouter();
 
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>("");
+
+  if (status === "loading") {
+    return <div className="">Loading...</div>;
+  }
+
+  if (status === "authenticated") {
+    router.push("/");
+  }
 
   return (
     <div className="flex flex-col mt-10">
