@@ -6,6 +6,11 @@ import Link from "next/link";
 interface Post {
   _id: string;
   title: string;
+  createdAt: string;
+  catSlug: string;
+  img?: string;
+  desc: string;
+  slug: string;
 }
 
 interface CardProps {
@@ -25,7 +30,7 @@ const Card: React.FC<CardProps> = ({ data }) => {
     >
       <div className="hidden xl:flex flex-1 relative h-[300px]">
         <Image
-          src="/images/p1.jpeg"
+          src={data.img || ""}
           alt=""
           fill
           className="object-cover rounded-xl"
@@ -33,18 +38,14 @@ const Card: React.FC<CardProps> = ({ data }) => {
       </div>
       <div className="flex flex-col flex-1 gap-4">
         <div className="flex gap-x-2">
-          <div className="text-gray-500">
-            11.02.2023
-            {/* {item.createdAt.substring(0, 10)} -{" "} */}
-          </div>
+          <div className="text-gray-500">{data.createdAt.substring(0, 10)}</div>
           -
-          <div className="text-[#dc143c] font-[500]">
-            CULTURE
-            {/* {item.catSlug} */}
+          <div className="text-[#dc143c] font-[500] capitalize">
+            {data.catSlug}
           </div>
         </div>
 
-        <Link href="{`/posts/${item.slug}`}">
+        <Link href={`/posts/${data.slug}`}>
           <h1 className="text-xl font-bold">{data.title}</h1>
         </Link>
         <p
@@ -52,18 +53,15 @@ const Card: React.FC<CardProps> = ({ data }) => {
             theme === "dark" ? "text-[#a6a6a6]" : "text-[#626262]"
           }`}
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo sed
-          fuga molestias fugit, repellat minima hic delectus. Rem est vel quas
-          impedit veritatis ipsum asperiores quo ducimus at, nemo totam velit .
-          . .{/* {item.desc.substring(0, 60)} */}
+          {data.desc.substring(0, 60)}
         </p>
 
-        <div
+        {/* <div
           className=""
-          // dangerouslySetInnerHTML={{ __html: item?.desc.substring(0,60) }}
-        />
+          dangerouslySetInnerHTML={{ __html: data?.desc.substring(0, 60) }}
+        /> */}
         <Link
-          href="{`/posts/${item.slug}`}"
+          href={`/posts/${data.slug}`}
           className={`border-b border-b-[#dc143c] w-max ${
             theme === "dark" ? "text-[#a6a6a6]" : "text-[#626262]"
           }`}

@@ -3,12 +3,16 @@ import Pagination from "./Pagination";
 
 interface CardListProps {
   page: number;
+  cat?: string;
 }
 
-const getData = async (page: number) => {
-  const res = await fetch(`http://localhost:3000/api/posts?page=${page}`, {
-    cache: "no-store",
-  });
+const getData = async (page: number, cat: string) => {
+  const res = await fetch(
+    `http://localhost:3000/api/posts?page=${page}&cat=${cat || ""}`,
+    {
+      cache: "no-store",
+    }
+  );
 
   if (!res.ok) {
     throw new Error("Failed");
@@ -17,8 +21,8 @@ const getData = async (page: number) => {
   return res.json();
 };
 
-const CardList: React.FC<CardListProps> = async ({ page }) => {
-  const { posts, count } = await getData(page);
+const CardList: React.FC<CardListProps> = async ({ page, cat }) => {
+  const { posts, count } = await getData(page, cat as string);
 
   const POST_PER_PAGE = 4;
   const hasPrev = POST_PER_PAGE * (page - 1) > 0;
