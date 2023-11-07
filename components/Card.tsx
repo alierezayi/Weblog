@@ -15,15 +15,17 @@ interface Post {
 
 interface CardProps {
   data: Post;
+  key: string;
 }
 
 import { useTheme } from "@/context/ThemeContext";
 
-const Card: React.FC<CardProps> = ({ data }) => {
+const Card: React.FC<CardProps> = ({ data, key }) => {
   const { theme } = useTheme();
 
   return (
     <div
+      key={key}
       className={`mb-12 flex items-center gap-10 p-5 rounded-xl ${
         theme === "dark" ? "bg-white/5" : "bg-[#0f172a]/5"
       }`}
