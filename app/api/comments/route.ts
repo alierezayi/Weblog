@@ -31,7 +31,7 @@ export const POST = async (req: Request): Promise<NextResponse> => {
 
   if (!session) {
     return new NextResponse(JSON.stringify({ message: "Not Authenticated!" }), {
-      status: 500,
+      status: 401,
     });
   }
 

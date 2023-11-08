@@ -42,14 +42,17 @@ const SinglePage = async ({ params }: { params: any }) => {
             </div>
           </div>
         </div>
-        <div className="flex-1 relative h-[350px] hidden lg:block">
-          <Image
-            src={data.img || ""}
-            alt=""
-            fill
-            className="object-cover rounded-xl"
-          />
-        </div>
+
+        {data.img && (
+          <div className="flex-1 relative h-[350px] hidden lg:block">
+            <Image
+              src={data.img || ""}
+              alt=""
+              fill
+              className="object-cover rounded-xl"
+            />
+          </div>
+        )}
       </div>
 
       <div className="flex gap-12">
