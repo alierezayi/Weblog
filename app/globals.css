@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .h1 {
-  @apply text-[30px] leading-tight md:text-[42px] md:leading-[1.2] mb-8 font-semibold;
+  @apply text-[30px] leading-tight md:text-[42px] md:leading-[1.2] mb-4 font-semibold;
 }
 .h2 {
   @apply text-[30px] leading-tight md:text-[36px] md:leading-[1.2] mb-4 font-semibold;
@@ -73,7 +73,7 @@ a {
 }
 @media screen and (max-width: 1280px) {
   .wrapper {
-    max-width: 1024px;
+    max-width: 1180px;
   }
 }
 @media screen and (max-width: 1024px) {
@@ -99,10 +99,31 @@ a {
 }
 
 .description p {
-  font-weight: 300;
   margin-bottom: 20px;
   color: var(--softTextColor);
   overflow: hidden;
+}
+
+.description ol,
+.description ul {
+  @apply flex flex-col gap-3 ml-4 my-4 list-disc;
+}
+
+.description pre {
+  @apply my-5 rounded-lg px-4 py-2 leading-[2] text-base tracking-wide overflow-x-auto;
+  background-color: var(--softBg);
+}
+
+.description code {
+  @apply px-2  rounded-md;
+}
+
+.description h2 {
+  @apply font-semibold;
+}
+
+.description blockquote {
+  @apply italic;
 }
 
 .ql-container {

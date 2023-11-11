@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import { useTheme } from "@/context/ThemeContext";
 import Link from "next/link";
 import { useState } from "react";
+import TimeAgo from "./TimeAgo";
 
 interface CommentsProps {
   postSlug: string;
@@ -50,7 +51,7 @@ const Comments: React.FC<CommentsProps> = ({ postSlug }) => {
   return (
     <div className="mt-12">
       <h3
-        className={`h3 mb-8 ${
+        className={`text-xl mb-8 ${
           theme === "dark" ? "text-[#a6a6a6]" : "text-[#626262]"
         }`}
       >
@@ -61,15 +62,15 @@ const Comments: React.FC<CommentsProps> = ({ postSlug }) => {
           <textarea
             value={desc}
             placeholder="write a comment..."
-            className={`py-3 px-4 w-full rounded-xl text-black outline-none border min-h-[200px] ${
+            className={`py-3 px-4 w-full rounded-lg text-black outline-none border-2 min-h-[200px] bg-transparent ${
               theme === "dark"
-                ? " bg-white/5 text-white border-white/10"
-                : "bg-[#0f172a]/5 border-[#0f172a]/10"
+                ? "text-white border-white/10"
+                : "border-[#0f172a]/10"
             }`}
             onChange={(e) => setDesc(e.target.value)}
           />
           <button
-            className="py-3 px-6 bg-[#008080] rounded-xl text-white hover:scale-95 transition"
+            className="py-2.5 px-10 bg-[#008080] hover:opacity-70 rounded-lg text-white  transition"
             onClick={handleSubmit}
           >
             Send
@@ -81,16 +82,16 @@ const Comments: React.FC<CommentsProps> = ({ postSlug }) => {
 
       <div className="mt-12">
         {isLoading
-          ? "loading"
+          ? "loading ..."
           : data?.map((item: any) => (
-              <div className="mb-12" key={item._id}>
+              <div className="mb-16" key={item._id}>
                 <div className="flex items-center justify-start gap-5 mb-5">
                   <Image
-                    src={item.user.image || ""}
+                    src={item.user.image}
                     alt=""
-                    width={50}
-                    height={50}
-                    className="h-[50px] object-cover rounded-full"
+                    width={40}
+                    height={40}
+                    className="h-[40px] object-cover rounded-full"
                   />
 
                   <div
@@ -98,12 +99,15 @@ const Comments: React.FC<CommentsProps> = ({ postSlug }) => {
                       theme === "dark" ? "text-[#a6a6a6]" : "text-[#626262]"
                     }`}
                   >
-                    <span className="font-semibold">{item.user.name}</span>
-                    <span className="text-sm">{item.createdAt}</span>
+                    <span className="font-semibold text-sm">
+                      {item.user.name}
+                    </span>
+
+                    <TimeAgo dateString={item.createdAt} className="text-sm" />
                   </div>
                 </div>
                 <p
-                  className={`text-lg font-light ${
+                  className={`text-lg font-light border-l-2 border-[#a0a0a0]/30 px-2 ml-2 ${
                     theme === "dark" ? "text-[#a6a6a6]" : "text-[#626262]"
                   }`}
                 >

@@ -38,7 +38,9 @@ const CardList: React.FC<CardListProps> = async ({ page, cat }) => {
         ))}
       </div>
 
-      <Pagination page={page} hasPrev={hasPrev} hasNext={hasNext} />
+      {page > 4 && (
+        <Pagination page={page} hasPrev={hasPrev} hasNext={hasNext} />
+      )}
     </div>
   );
 };

@@ -11,7 +11,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { HiOutlineVideoCamera, HiXMark } from "react-icons/hi2";
 import { IoImageOutline } from "react-icons/io5";
 
-import ReactQuill, { Quill } from "react-quill";
+import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 
 import { useTheme } from "@/context/ThemeContext";

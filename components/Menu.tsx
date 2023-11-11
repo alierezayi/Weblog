@@ -3,7 +3,7 @@ import MenuPosts from "./MenuPosts";
 
 const Menu = () => {
   return (
-    <div className="flex-[2] mt-[60px] hidden xl:block">
+    <div className="flex-[2] mt-[60px] hidden lg:block">
       <h2 className="text-gray-500 text-base font-[400]">{"What's hot"}</h2>
       <h1 className="text-2xl">Most Popular</h1>
       <MenuPosts withImage={false} />

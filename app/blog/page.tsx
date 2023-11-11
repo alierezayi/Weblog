@@ -11,8 +11,8 @@ const BlogPage = ({
 
   return (
     <div className="my-16">
-      <h1 className="bg-[#FF7F50] text-white py-2 px-3 font-semibold text-lg text-center capitalize rounded-lg">
-        {cat} Blog
+      <h1 className="bg-[#ffb04f45] py-2 px-3 text-lg text-center capitalize rounded-lg">
+        @ {cat} Blog
       </h1>
       <div className="flex gap-12">
         <CardList page={page} cat={cat} />

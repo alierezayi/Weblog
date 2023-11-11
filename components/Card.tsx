@@ -27,19 +27,22 @@ const Card: React.FC<CardProps> = ({ data, key }) => {
   return (
     <div
       key={key}
-      className={`mb-12 flex items-center gap-10 p-5 rounded-xl ${
+      className={`mb-12 flex flex-col md:flex-row items-center gap-10 p-5 rounded-xl group ${
         theme === "dark" ? "bg-white/5" : "bg-[#0f172a]/5"
       }`}
     >
       {data.img && (
-        <div className="hidden xl:flex flex-1 relative h-[300px]">
+        <Link
+          href={`/posts/${data.slug}`}
+          className="flex flex-1 relative h-[300px] w-[300px] aspect-square"
+        >
           <Image
-            src={data.img as any}
+            src={data.img}
             alt=""
             fill
-            className="object-cover rounded-xl"
+            className="object-cover rounded-xl group-hover:blur-[2px] transition-all duration-500"
           />
-        </div>
+        </Link>
       )}
 
       <div className="flex flex-col flex-1 gap-4">
@@ -56,12 +59,12 @@ const Card: React.FC<CardProps> = ({ data, key }) => {
         </Link>
 
         <div
-          className={`description`}
-          dangerouslySetInnerHTML={{ __html: data.desc.substring(0, 300) }}
+          className={`description `}
+          dangerouslySetInnerHTML={{ __html: data.desc.substring(0, 200) }}
         />
         <Link
           href={`/posts/${data.slug}`}
-          className={`border-b border-b-[#dc143c] w-max ${
+          className={`border-b-2 border-b-[#dc143c] hover:border-b-[#dc143c]/50 transition w-max ${
             theme === "dark" ? "text-[#a6a6a6]" : "text-[#626262]"
           }`}
         >
