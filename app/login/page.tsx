@@ -2,6 +2,7 @@
 
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { BarLoader } from "react-spinners";
 
 import { FaFacebook } from "react-icons/fa6";
 import { ImGoogle3 } from "react-icons/im";
@@ -15,7 +16,19 @@ const LoginPage = () => {
   const router = useRouter();
 
   if (status === "loading") {
-    return <div className="{styles.loading}">Loading...</div>;
+    return (
+      <div
+        className={`w-full h-screen flex justify-center items-center ${
+          theme === "dark" ? "bg-[#0f172a]" : "#fff"
+        }`}
+      >
+        <BarLoader
+          height={5}
+          color={theme === "dark" ? "#a6a6a6" : "#1f273a"}
+          loading
+        />
+      </div>
+    );
   }
 
   if (status === "authenticated") {

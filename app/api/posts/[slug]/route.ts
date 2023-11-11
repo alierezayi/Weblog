@@ -1,9 +1,10 @@
 import prisma from "@/libs/connect";
+import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 import { NextResponse } from "next/server";
 
 export const GET = async (
   req: Request,
-  { params }: any
+  { params }: Params
 ): Promise<NextResponse> => {
   const { slug } = params;
 

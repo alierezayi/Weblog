@@ -57,7 +57,7 @@ const Card: React.FC<CardProps> = ({ data, key }) => {
 
         <div
           className={`description`}
-          dangerouslySetInnerHTML={{ __html: data.desc.substring(0, 60) }}
+          dangerouslySetInnerHTML={{ __html: data.desc.substring(0, 300) }}
         />
         <Link
           href={`/posts/${data.slug}`}

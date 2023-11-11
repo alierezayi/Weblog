@@ -2,24 +2,22 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import {
-  getStorage,
-  ref,
-  uploadBytesResumable,
-  getDownloadURL,
-} from "firebase/storage";
+
 import { useRouter } from "next/navigation";
+import { BarLoader } from "react-spinners";
 
 import { BsUpload } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
 import { HiOutlineVideoCamera, HiXMark } from "react-icons/hi2";
 import { IoImageOutline } from "react-icons/io5";
 
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 
 import { useTheme } from "@/context/ThemeContext";
-import { app } from "@/libs/firebase";
+import { supabase } from "@/libs/supabase";
+
+const categories = ["style", "fashion", "food", "culture", "travel", "coding"];
 
 const WritePage = () => {
   const { theme } = useTheme();
@@ -28,45 +26,42 @@ const WritePage = () => {
 
   const [open, setOpen] = useState<boolean>(false);
   const [value, setValue] = useState<string>("");
-  const [file, setFile] = useState<File | null | any>(null);
+  const [file, setFile] = useState<any>(null);
   const [media, setMedia] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [catSlug, setCatSlug] = useState<string>("");
 
   useEffect(() => {
-    const storage = getStorage(app);
-    const upload = () => {
-      const name = new Date().getTime() + file.name;
-      const storageRef = ref(storage, name);
+    if (typeof document !== "undefined") {
+    }
+  }, []);
 
-      const uploadTask = uploadBytesResumable(storageRef, file);
+  useEffect(() => {
+    const upload = async () => {
+      const fileExt = file.name.split(".").pop();
+      const fileName = `${Math.random()}.${fileExt}`;
+      const filePath = `${fileName}`;
 
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
-          switch (snapshot.state) {
-            case "paused":
-              console.log("Upload is paused");
-              break;
-            case "running":
-              console.log("Upload is running");
-              break;
-          }
-        },
-        (error) => {},
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setMedia(downloadURL);
-          });
-        }
-      );
+      const { error: uploadError } = await supabase.storage
+        .from("images")
+        .upload(filePath, file, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const publicUrl = supabase.storage.from("images").getPublicUrl(filePath);
+
+      setMedia(publicUrl.data.publicUrl);
     };
 
     file && upload();
   }, [file]);
+
+  console.log(media);
 
   const slugify = (str: string) =>
     str
@@ -84,19 +79,32 @@ const WritePage = () => {
         desc: value,
         img: media,
         slug: slugify(title),
-        catSlug: "travel",
+        catSlug: catSlug || "style",
       }),
     });
 
-    if (res.ok) {
-      router.push("/");
+    if (res.status === 200) {
+      const data = await res.json();
+      router.push(`/posts/${data.slug}`);
     }
 
     console.log(res);
   };
 
   if (status === "loading") {
-    return <div className="">Loading...</div>;
+    return (
+      <div
+        className={`w-full h-screen flex justify-center items-center ${
+          theme === "dark" ? "bg-[#0f172a]" : "#fff"
+        }`}
+      >
+        <BarLoader
+          height={5}
+          color={theme === "dark" ? "#a6a6a6" : "#1f273a"}
+          loading
+        />
+      </div>
+    );
   }
 
   if (status === "unauthenticated") {
@@ -104,7 +112,7 @@ const WritePage = () => {
   }
 
   return (
-    <div className="flex flex-col mt-10">
+    <div id="editor" className="flex flex-col mt-10">
       <input
         type="text"
         placeholder="Title"
@@ -112,7 +120,18 @@ const WritePage = () => {
         onChange={(e) => setTitle(e.target.value)}
       />
 
-      {/* TODO: Category */}
+      <select
+        className={`mb-12 py-2 px-5 w-max cursor-pointer outline-none rounded-lg ${
+          theme === "dark" ? "bg-white/10" : "bg-[#1f273a]/10"
+        }`}
+        onChange={(e) => setCatSlug(e.target.value)}
+      >
+        {categories.map((category, i) => (
+          <option key={i} value={category} className={`text-black bg-white`}>
+            {category}
+          </option>
+        ))}
+      </select>
 
       <div className="flex gap-5 relative px-3">
         <button
@@ -163,7 +182,7 @@ const WritePage = () => {
       <ReactQuill
         theme="bubble"
         className={`w-full mt-7 font-[400] h-[400px] border-2 rounded-2xl xl:p-3 ${
-          theme === "dark" ? "border-white/20" : "border-black/10"
+          theme === "dark" ? "border-white/5" : "border-black/5"
         }`}
         value={value}
         onChange={setValue}
