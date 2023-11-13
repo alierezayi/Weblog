@@ -19,15 +19,6 @@ const getData = async (slug: string) => {
   return res.json();
 };
 
-const categorysColors = [
-  "bg-[#da85c731]",
-  "bg-[#ffb04f45]",
-  "bg-[#7fb88133]",
-  "bg-[#5e4fff31]",
-  "bg-[#57c4ff31]",
-  "bg-[#ff795736]",
-];
-
 const categories = ["style", "fashion", "food", "culture", "travel", "coding"];
 
 const SinglePage = async ({ params }: { params: Params }) => {
@@ -53,14 +44,18 @@ const SinglePage = async ({ params }: { params: Params }) => {
               </div>
             )}
             <div className={`flex flex-col `}>
-              <span className="text-sm md:text-base font-medium">{data?.user.name}</span>
+              <span className="text-sm md:text-base font-medium">
+                {data?.user.name}
+              </span>
 
-              <span className="text-sm md:text-base font-light">{data?.user.email}</span>
+              <span className="text-sm md:text-base font-light">
+                {data?.user.email}
+              </span>
             </div>
           </div>
 
           <div className="flex items-center justify-between gap-4 mt-auto text-sm">
-            <TimeAgo dateString={data.createdAt} className="text-[#a6a6a6]" />
+            <TimeAgo dateString={data.createdAt} className="" />
 
             <span className="md:hidden">-</span>
 
@@ -70,7 +65,7 @@ const SinglePage = async ({ params }: { params: Params }) => {
 
             <span className="md:hidden">-</span>
 
-            <span className="inline-flex items-center gap-1 text-[#a6a6a6]">
+            <span className="inline-flex items-center gap-1 ">
               <HiOutlineEye size={20} />
 
               <span>{data?.views}</span>

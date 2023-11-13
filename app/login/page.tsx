@@ -36,32 +36,33 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="flex justify-center items-center mt-16">
+    <div className="flex flex-col justify-center items-center mt-16 gap-5">
+      <h1 className={`h3 ${theme === "dark" ? "text-[#a6a6a6]" : "text-[#1f273a]/70"}`}>
+        Login to your account
+      </h1>
       <div
-        className={`flex flex-col gap-14 rounded-xl ${
+        className={`flex flex-col gap-6 md:gap-10 rounded-xl w-full max-w-lg  ${
           theme === "dark" ? "bg-[#1f273a]" : "bg-[#f0f0f0]"
-        } p-10 md:p-20 xl:py-32 xl:px-40`}
+        } p-4 md:p-10`}
       >
         <button
-          className="p-5 rounded-md text-sm sm:text-base font-semibold text-white sm:font-bold
+          className="p-5 rounded-md text-sm sm:text-base font-semibold text-white sm:font-bold hover:opacity-80 transition
           flex justify-center items-center bg-[#ff5555] gap-2"
           onClick={() => signIn("google")}
         >
           <ImGoogle3 size={25} />
           Sign in with Google
         </button>
-
         <button
-          className="p-5 rounded-md text-sm sm:text-base font-semibold text-white
+          className="p-5 rounded-md text-sm sm:text-base font-semibold text-white hover:opacity-80 transition
           flex justify-center items-center sm:font-bold bg-[#111] gap-2"
           onClick={() => signIn("github")}
         >
           <BsGithub size={25} />
           Sign in with Github
         </button>
-
         <button
-          className="p-5 rounded-md text-sm sm:text-base font-semibold text-white
+          className="p-5 rounded-md text-sm sm:text-base font-semibold text-white hover:opacity-80 transition
           flex justify-center items-center sm:font-bold bg-[#087bea] gap-2"
         >
           <FaFacebook size={25} />

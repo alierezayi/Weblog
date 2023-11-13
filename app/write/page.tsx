@@ -2,12 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import Image from "next/image";
 
 import { useRouter } from "next/navigation";
-import { BarLoader } from "react-spinners";
+import { BarLoader, FadeLoader, RingLoader } from "react-spinners";
 
-import { BsUpload } from "react-icons/bs";
-import { AiOutlinePlus } from "react-icons/ai";
 import { HiOutlineVideoCamera, HiXMark } from "react-icons/hi2";
 import { IoImageOutline } from "react-icons/io5";
 
@@ -17,19 +16,44 @@ import "react-quill/dist/quill.bubble.css";
 import { useTheme } from "@/context/ThemeContext";
 import { supabase } from "@/libs/supabase";
 
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { BsCardImage } from "react-icons/bs";
+
 const categories = ["style", "fashion", "food", "culture", "travel", "coding"];
+
+const categorysColors = [
+  "bg-[#da85c731]",
+  "bg-[#ffb04f45]",
+  "bg-[#7fb88133]",
+  "bg-[#5e4fff31]",
+  "bg-[#57c4ff31]",
+  "bg-[#ff795736]",
+];
 
 const WritePage = () => {
   const { theme } = useTheme();
   const { status } = useSession();
   const router = useRouter();
 
-  const [open, setOpen] = useState<boolean>(false);
-  const [value, setValue] = useState<string>("");
+  const [openCategory, setOpenCategory] = useState<boolean>(false);
+
   const [file, setFile] = useState<any>(null);
+
+  const [value, setValue] = useState<string>("");
   const [media, setMedia] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [catSlug, setCatSlug] = useState<string>("");
+
+  const [isUploadLoading, setIsUploadLoading] = useState<boolean>(false);
+  const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
+
+  const [postData, setPostData] = useState({
+    title: "",
+    desc: "",
+    img: "",
+    slug: "",
+    catSlug: "",
+  });
 
   useEffect(() => {
     if (typeof document !== "undefined") {
@@ -38,6 +62,8 @@ const WritePage = () => {
 
   useEffect(() => {
     const upload = async () => {
+      setIsUploadLoading(true);
+
       const fileExt = file.name.split(".").pop();
       const fileName = `${Math.random()}.${fileExt}`;
       const filePath = `${fileName}`;
@@ -56,12 +82,12 @@ const WritePage = () => {
       const publicUrl = supabase.storage.from("images").getPublicUrl(filePath);
 
       setMedia(publicUrl.data.publicUrl);
+
+      setIsUploadLoading(false);
     };
 
     file && upload();
   }, [file]);
-
-  console.log(media);
 
   const slugify = (str: string) =>
     str
@@ -72,6 +98,8 @@ const WritePage = () => {
       .replace(/^-+|-+$/g, "");
 
   const handleSubmit = async () => {
+    setIsSubmitLoading(true);
+
     const res = await fetch("http://localhost:3000/api/posts", {
       method: "POST",
       body: JSON.stringify({
@@ -88,7 +116,16 @@ const WritePage = () => {
       router.push(`/posts/${data.slug}`);
     }
 
-    console.log(res);
+    setIsSubmitLoading(false);
+  };
+
+  const toggleCategory = () => {
+    setOpenCategory((prev) => !prev);
+  };
+
+  const handleCategory = (category: string) => {
+    setCatSlug(category);
+    setOpenCategory(false);
   };
 
   if (status === "loading") {
@@ -113,85 +150,118 @@ const WritePage = () => {
 
   return (
     <div id="editor" className="flex flex-col mt-10">
-      <input
-        type="text"
-        placeholder="Title"
-        className="bg-transparent text-5xl xl:text-6xl outline-none font-semibold py-5 px-2"
-        onChange={(e) => setTitle(e.target.value)}
-      />
-
-      <select
-        className={`mb-12 py-2 px-5 w-max cursor-pointer outline-none rounded-lg ${
-          theme === "dark" ? "bg-white/10" : "bg-[#1f273a]/10"
-        }`}
-        onChange={(e) => setCatSlug(e.target.value)}
-      >
-        {categories.map((category, i) => (
-          <option key={i} value={category} className={`text-black bg-white`}>
-            {category}
-          </option>
-        ))}
-      </select>
-
-      <div className="flex gap-5 relative px-3">
-        <button
-          className={`w-9 h-9 rounded-full flex justify-center items-center border hover:scale-105 transition ${
-            theme === "light" && "border-[#111]"
-          }`}
-          onClick={() => setOpen((prev) => !prev)}
-        >
-          {open ? <HiXMark size={16} /> : <AiOutlinePlus size={16} />}
-        </button>
-
-        {open && (
-          <div className="flex gap-5 absolute z-20 w-full left-16">
-            <input
-              type="file"
-              id="image"
-              onChange={(e: any) => setFile(e.target.files[0])}
-              className="sr-only"
-            />
-            <label
-              htmlFor="image"
-              className={`w-9 h-9 rounded-full flex justify-center items-center border hover:scale-105 transition ${
-                theme === "light" && "border-[#111]"
-              } cursor-pointer`}
-            >
-              <IoImageOutline size={16} />
-            </label>
-
-            <button
-              className={`w-9 h-9 rounded-full flex justify-center items-center border hover:scale-105 transition ${
-                theme === "light" && "border-[#111]"
+      <div className="flex justify-center items-center flex-col my-10">
+        <div className="flex-1 relative w-[350px] sm:w-[600px] sm:h-[350px] aspect-video">
+          {isUploadLoading ? (
+            <div
+              className={`w-full h-full rounded-xl flex justify-center items-center ${
+                theme === "dark" ? "bg-[#1f273a]" : "bg-[#f0f0f0]"
               }`}
             >
-              <BsUpload size={16} />
-            </button>
+              <FadeLoader color={theme === "dark" ? "#a6a6a6" : "#626262"} />
+            </div>
+          ) : (
+            <>
+              {media ? (
+                <Image
+                  src={media}
+                  alt=""
+                  fill
+                  className="object-cover rounded-xl"
+                />
+              ) : (
+                <>
+                  <label
+                    htmlFor="image"
+                    className={`w-full h-full rounded-xl flex justify-center items-center cursor-pointer ${
+                      theme === "dark" ? "bg-[#1f273a]" : "bg-[#f0f0f0]"
+                    }`}
+                  >
+                    <BsCardImage
+                      size={60}
+                      color={theme === "dark" ? "#a6a6a6" : "#626262"}
+                    />
+                  </label>
 
-            <button
-              className={`w-9 h-9 rounded-full flex justify-center items-center border hover:scale-105 transition ${
-                theme === "light" && "border-[#111]"
-              }`}
-            >
-              <HiOutlineVideoCamera size={16} />
-            </button>
-          </div>
-        )}
+                  <input
+                    type="file"
+                    id="image"
+                    onChange={(e: any) => setFile(e.target.files[0])}
+                    className="sr-only"
+                    accept="image/*"
+                  />
+                </>
+              )}
+            </>
+          )}
+        </div>
       </div>
+
+      <div className="flex items-center justify-between">
+        <input
+          type="text"
+          placeholder="Title"
+          className="bg-transparent text-2xl xl:text-4xl outline-none font-semibold py-5 px-2 max-w-[70%] md:max-w-full md:flex-1"
+          onChange={(e) => setTitle(e.target.value)}
+        />
+
+        <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-5 relative">
+            <button
+              className={`rounded-full flex justify-center items-center hover:scale-105 transition`}
+              onClick={toggleCategory}
+            >
+              <div
+                className={`flex gap-2 items-center py-1 px-3 rounded-md ${
+                  theme === "dark" ? "bg-[#1f273a]" : "bg-[#f0f0f0]"
+                }`}
+              >
+                {catSlug ? catSlug : "category"}
+                {openCategory ? <IoIosArrowUp /> : <IoIosArrowDown />}
+              </div>
+            </button>
+
+            {openCategory && (
+              <div
+                className={`flex flex-col absolute z-20 top-12 right-0 w-[150px] rounded-md divide-y-2 ${
+                  theme === "dark"
+                    ? "bg-[#1f273a] divide-white/5"
+                    : "bg-[#f0f0f0] divide-white[#1f273a]/5"
+                }`}
+              >
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    className={`py-2 px-3 hover:font-semibold transition text-start`}
+                    onClick={() => handleCategory(category)}
+                  >
+                    {category}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div
+        className={`w-full h-[2px] ${
+          theme === "dark" ? "bg-[#1f273a]" : "bg-[#f0f0f0]"
+        }`}
+      />
 
       <ReactQuill
         theme="bubble"
-        className={`w-full mt-7 font-[400] h-[400px] border-2 rounded-2xl xl:p-3 ${
-          theme === "dark" ? "border-white/5" : "border-black/5"
-        }`}
+        className={`w-full min-h-[400px] my-2`}
         value={value}
         onChange={setValue}
         placeholder="Tell your story . . ."
       />
 
       <button
-        className="md:fixed relative md:top-5 md:right-6 mt-10 md:mt-auto py-2 px-4 bg-[#1a8917] text-white rounded-lg
-        hover:bg-[#1a8917]/70 active:scale-105 transition"
+        className="py-2 px-4 bg-[#1a8917] text-white rounded-lg
+        hover:bg-[#1a8917]/70 transition disabled:opacity-50"
+        disabled={isSubmitLoading}
         onClick={handleSubmit}
       >
         Publish
