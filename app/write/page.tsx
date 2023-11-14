@@ -7,28 +7,14 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { BarLoader, FadeLoader, RingLoader } from "react-spinners";
 
-import { HiOutlineVideoCamera, HiXMark } from "react-icons/hi2";
-import { IoImageOutline } from "react-icons/io5";
-
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.bubble.css";
-
 import { useTheme } from "@/context/ThemeContext";
 import { supabase } from "@/libs/supabase";
 
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
-import { BsCardImage } from "react-icons/bs";
+import TextEditor from "@/components/TextEditor";
+import ImageUpload from "@/components/ImageUpload";
+import Options from "@/components/Options";
 
 const categories = ["style", "fashion", "food", "culture", "travel", "coding"];
-
-const categorysColors = [
-  "bg-[#da85c731]",
-  "bg-[#ffb04f45]",
-  "bg-[#7fb88133]",
-  "bg-[#5e4fff31]",
-  "bg-[#57c4ff31]",
-  "bg-[#ff795736]",
-];
 
 const WritePage = () => {
   const { theme } = useTheme();
@@ -47,18 +33,13 @@ const WritePage = () => {
   const [isUploadLoading, setIsUploadLoading] = useState<boolean>(false);
   const [isSubmitLoading, setIsSubmitLoading] = useState<boolean>(false);
 
-  const [postData, setPostData] = useState({
-    title: "",
-    desc: "",
-    img: "",
-    slug: "",
-    catSlug: "",
-  });
-
-  useEffect(() => {
-    if (typeof document !== "undefined") {
-    }
-  }, []);
+  // const [postData, setPostData] = useState({
+  //   title: "",
+  //   desc: "",
+  //   img: "",
+  //   slug: "",
+  //   catSlug: "",
+  // });
 
   useEffect(() => {
     const upload = async () => {
@@ -107,7 +88,7 @@ const WritePage = () => {
         desc: value,
         img: media,
         slug: slugify(title),
-        catSlug: catSlug || "style",
+        catSlug,
       }),
     });
 
@@ -123,8 +104,7 @@ const WritePage = () => {
     setOpenCategory((prev) => !prev);
   };
 
-  const handleCategory = (category: string) => {
-    setCatSlug(category);
+  const closeCategory = () => {
     setOpenCategory(false);
   };
 
@@ -149,53 +129,12 @@ const WritePage = () => {
   }
 
   return (
-    <div id="editor" className="flex flex-col mt-10">
-      <div className="flex justify-center items-center flex-col my-10">
-        <div className="flex-1 relative w-[350px] sm:w-[600px] sm:h-[350px] aspect-video">
-          {isUploadLoading ? (
-            <div
-              className={`w-full h-full rounded-xl flex justify-center items-center ${
-                theme === "dark" ? "bg-[#1f273a]" : "bg-[#f0f0f0]"
-              }`}
-            >
-              <FadeLoader color={theme === "dark" ? "#a6a6a6" : "#626262"} />
-            </div>
-          ) : (
-            <>
-              {media ? (
-                <Image
-                  src={media}
-                  alt=""
-                  fill
-                  className="object-cover rounded-xl"
-                />
-              ) : (
-                <>
-                  <label
-                    htmlFor="image"
-                    className={`w-full h-full rounded-xl flex justify-center items-center cursor-pointer ${
-                      theme === "dark" ? "bg-[#1f273a]" : "bg-[#f0f0f0]"
-                    }`}
-                  >
-                    <BsCardImage
-                      size={60}
-                      color={theme === "dark" ? "#a6a6a6" : "#626262"}
-                    />
-                  </label>
-
-                  <input
-                    type="file"
-                    id="image"
-                    onChange={(e: any) => setFile(e.target.files[0])}
-                    className="sr-only"
-                    accept="image/*"
-                  />
-                </>
-              )}
-            </>
-          )}
-        </div>
-      </div>
+    <div className="flex flex-col mt-10">
+      <ImageUpload
+        media={media}
+        loading={isUploadLoading}
+        updateFile={(val) => setFile(val)}
+      />
 
       <div className="flex items-center justify-between">
         <input
@@ -205,43 +144,13 @@ const WritePage = () => {
           onChange={(e) => setTitle(e.target.value)}
         />
 
-        <div className="flex items-center gap-2">
-          <div className="flex flex-col gap-5 relative">
-            <button
-              className={`rounded-full flex justify-center items-center hover:scale-105 transition`}
-              onClick={toggleCategory}
-            >
-              <div
-                className={`flex gap-2 items-center py-1 px-3 rounded-md ${
-                  theme === "dark" ? "bg-[#1f273a]" : "bg-[#f0f0f0]"
-                }`}
-              >
-                {catSlug ? catSlug : "category"}
-                {openCategory ? <IoIosArrowUp /> : <IoIosArrowDown />}
-              </div>
-            </button>
-
-            {openCategory && (
-              <div
-                className={`flex flex-col absolute z-20 top-12 right-0 w-[150px] rounded-md divide-y-2 ${
-                  theme === "dark"
-                    ? "bg-[#1f273a] divide-white/5"
-                    : "bg-[#f0f0f0] divide-white[#1f273a]/5"
-                }`}
-              >
-                {categories.map((category) => (
-                  <button
-                    key={category}
-                    className={`py-2 px-3 hover:font-semibold transition text-start`}
-                    onClick={() => handleCategory(category)}
-                  >
-                    {category}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
+        <Options
+          list={categories}
+          isOpen={openCategory}
+          toggle={toggleCategory}
+          close={closeCategory}
+          selectOption={(data) => setCatSlug(data)}
+        />
       </div>
 
       <div
@@ -250,13 +159,7 @@ const WritePage = () => {
         }`}
       />
 
-      <ReactQuill
-        theme="bubble"
-        className={`w-full min-h-[400px] my-2`}
-        value={value}
-        onChange={setValue}
-        placeholder="Tell your story . . ."
-      />
+      <TextEditor value={value} setValue={setValue} />
 
       <button
         className="py-2 px-4 bg-[#1a8917] text-white rounded-lg

@@ -15,19 +15,17 @@ interface Post {
 
 interface CardProps {
   data: Post;
-  key: string;
 }
 
 import { useTheme } from "@/context/ThemeContext";
+import TimeAgo from "./TimeAgo";
 
-const Card: React.FC<CardProps> = ({ data, key }) => {
+const Card: React.FC<CardProps> = ({ data }) => {
   const { theme } = useTheme();
-  console.log(data.img);
 
   return (
     <div
-      key={key}
-      className={`mb-12 flex flex-col md:flex-row items-center gap-10 p-5 rounded-xl group ${
+      className={`mb-12 flex flex-col xl:flex-row items-center gap-10 p-5 rounded-xl group ${
         theme === "dark" ? "bg-white/5" : "bg-[#0f172a]/5"
       }`}
     >
@@ -47,21 +45,24 @@ const Card: React.FC<CardProps> = ({ data, key }) => {
 
       <div className="flex flex-col flex-1 gap-4">
         <div className="flex gap-x-2">
-          <div className="text-gray-500">{data.createdAt.substring(0, 10)}</div>
+          <div className="text-gray-500">
+            <TimeAgo dateString={data?.createdAt} className="" />
+          </div>
           -
           <div className="text-[#dc143c] font-[500] capitalize">
-            {data.catSlug}
+            @ {data.catSlug}
           </div>
         </div>
 
         <Link href={`/posts/${data.slug}`}>
-          <h1 className="text-xl font-bold">{data.title}</h1>
+          <h1 className="text-xl font-bold truncate">{data.title}</h1>
         </Link>
 
         <div
-          className={`description `}
+          className={`description max-h-[183px] overflow-hidden`}
           dangerouslySetInnerHTML={{ __html: data.desc.substring(0, 200) }}
         />
+
         <Link
           href={`/posts/${data.slug}`}
           className={`border-b-2 border-b-[#dc143c] hover:border-b-[#dc143c]/50 transition w-max ${

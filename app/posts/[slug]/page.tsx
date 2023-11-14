@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Params } from "next/dist/shared/lib/router/utils/route-matcher";
 
 import { HiOutlineEye } from "react-icons/hi2";
@@ -59,9 +60,12 @@ const SinglePage = async ({ params }: { params: Params }) => {
 
             <span className="md:hidden">-</span>
 
-            <span className="capitalize py-1 px-2 rounded-lg text-white bg-[#ff7887]">
-              {data?.catSlug}
-            </span>
+            <Link
+              href={`/blog?cat=${data?.catSlug}`}
+              className="capitalize py-1 px-2 rounded-lg text-white bg-[#ff7887]"
+            >
+              @ {data?.catSlug}
+            </Link>
 
             <span className="md:hidden">-</span>
 

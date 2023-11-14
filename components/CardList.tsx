@@ -33,8 +33,8 @@ const CardList: React.FC<CardListProps> = async ({ page, cat }) => {
       <h1 className="my-12 text-xl font-bold">Recent Posts</h1>
 
       <div className="">
-        {posts?.map((post: any) => (
-          <Card key={post._id} data={post} />
+        {posts?.map((post: any, i: number) => (
+          <Card key={i} data={post} />
         ))}
       </div>
 
