@@ -13,24 +13,24 @@ import { useTheme } from "@/context/ThemeContext";
 const AuthLinks = () => {
   const [open, setOpen] = useState(false);
   const { theme } = useTheme();
-  // const { status } = useSession();
+  const { status } = useSession();
 
   return (
     <>
-      {/* {status === "unauthenticated" ? (
+      {status === "unauthenticated" ? (
         <Link href="/login" className="hidden md:block">
           <LuLogIn size={20} className="text-gray-500 dark:text-gray-400" />
         </Link>
-      ) : ( */}
-      <>
-        <Link href="/write" className="hidden md:block text-xl">
-          Write
-        </Link>
-        <button className="hidden md:block" onClick={() => signOut()}>
-          <LuLogOut size={20} className="text-red-500" />
-        </button>
-      </>
-      {/* )} */}
+      ) : (
+        <>
+          <Link href="/write" className="hidden md:block text-xl">
+            Write
+          </Link>
+          <button className="hidden md:block" onClick={() => signOut()}>
+            <LuLogOut size={20} className="text-red-500" />
+          </button>
+        </>
+      )}
 
       <div
         className=" flex flex-col justify-between items-center cursor-pointer md:hidden"
@@ -56,21 +56,21 @@ const AuthLinks = () => {
 
           <Link href="/contact">Contact</Link>
 
-          {/* {status === "unauthenticated" ? (
+          {status === "unauthenticated" ? (
             <Link href="/login">
               <LuLogIn />
             </Link>
-          ) : ( */}
-          <>
-            <Link href="/write">Write</Link>
-            <button
-              className="text-red-500 dark:text-red-400"
-              onClick={() => signOut()}
-            >
-              Log out
-            </button>
-          </>
-          {/* )} */}
+          ) : (
+            <>
+              <Link href="/write">Write</Link>
+              <button
+                className="text-red-500 dark:text-red-400"
+                onClick={() => signOut()}
+              >
+                Log out
+              </button>
+            </>
+          )}
         </div>
       )}
     </>
