@@ -23,17 +23,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AuthProvider>
-          <ThemeContextProvider>
-            <div className="layout-container py-5">
-              <div className="wrapper">
-                <Header />
-                {children}
-                <Footer />
-              </div>
+        <ThemeContextProvider>
+          <div className="layout-container py-5">
+            <div className="wrapper">
+              <Header />
+              {children}
+              <Footer />
             </div>
-          </ThemeContextProvider>
-        </AuthProvider>
+          </div>
+        </ThemeContextProvider>
       </body>
     </html>
   );
